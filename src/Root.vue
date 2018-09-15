@@ -2,7 +2,7 @@
   <div id="app">
     <section>
       <h3>form1</h3>
-      <form name="form1" @prevent.stop>
+      <form name="form1">
         <c-input
           name="input1"
           label="input1"
@@ -17,13 +17,11 @@
           v-model="form1.input2"
         />
       </form>
-
-      <button @click="submit1('form1')">salvar</button>
     </section>
 
     <section>
       <h3>form2</h3>
-      <form name="form2" @prevent.stop>
+      <form name="form2">
         <c-input
           name="input1"
           label="input1"
@@ -31,8 +29,6 @@
           v-model="form2.input1"
         />
       </form>
-
-      <button @click="submit2('form2')">salvar</button>
     </section>
   </div>
 </template>
@@ -42,7 +38,7 @@
 import CInput from './components/CInput'
 
 // mixins
-import { formSetup } from 'vue-coe-validator'
+import formSetup from './support/mixin/formSetup'
 
 export default {
   name: 'root',
@@ -75,26 +71,26 @@ export default {
         alpha: true
       }
     }
+  },
+
+  messages: {
+    form1: {
+      input1: {
+        required: 'não pode ser vazio!',
+        alphabetic: 'tá errado, é alphabetic!'
+      },
+      input2: {
+        required: 'preenche tudo!',
+        pattern: 'precisa ser e-mail!'
+      }
+    },
+    form2: {
+      input1: {
+        required: 'tá vazio, não pode!',
+        alpha: 'tá errado, é alpha!'
+      }
+    }
   }
-
-  // methods: {
-  //   submit1 (form) {
-  //     this.$allTouched(form)
-  //     const isValid = this.$isValidForm(form)
-
-  //     if (isValid) {
-  //       console.log('save data form1')
-  //     }
-  //   },
-  //   submit2 (form) {
-  //     this.$allTouched(form)
-  //     const isValid = this.$isValidForm(form)
-
-  //     if (isValid) {
-  //       console.log('save data form2')
-  //     }
-  //   }
-  // }
 }
 </script>
 
