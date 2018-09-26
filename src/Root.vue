@@ -1,32 +1,80 @@
 <template>
   <div id="app">
     <section>
-      <h3>form1</h3>
-      <form name="form1">
+      <form id="form1">
         <c-input
-          name="input1"
-          label="input1"
-          :validation="$hasError('input1', 'form1')"
-          v-model="form1.input1"
+          label="Razão social"
+          name="name"
+          :validation="$hasError('name', 'form1')"
+          v-model="form1.name"
         />
 
         <c-input
-          name="input2"
-          label="input2"
-          :validation="$hasError('input2', 'form1')"
-          v-model="form1.input2"
+          label="E-mail"
+          name="email"
+          :validation="$hasError('email', 'form1')"
+          v-model="form1.email"
         />
-      </form>
-    </section>
 
-    <section>
-      <h3>form2</h3>
-      <form name="form2">
         <c-input
-          name="input1"
-          label="input1"
-          :validation="$hasError('input1', 'form2')"
-          v-model="form2.input1"
+          label="Cnpj"
+          name="registry_code"
+          :validation="$hasError('registry_code', 'form1')"
+          v-model="form1.registry_code"
+        />
+
+        <c-input
+          label="Telefone"
+          name="phone"
+          :validation="$hasError('phone', 'form1')"
+          v-model="form1.phone"
+        />
+
+        <c-input
+          label="Cep"
+          name="zipcode"
+          :validation="$hasError('zipcode', 'form1')"
+          v-model="form1.zipcode"
+        />
+
+        <c-input
+          label="Número"
+          name="number"
+          :validation="$hasError('number', 'form1')"
+          v-model="form1.number"
+        />
+
+        <c-input
+          label="Complemento"
+          name="additional_details"
+          v-model="form1. additional_details"
+        />
+
+        <c-input
+          label="Bairro"
+          name="neighborhood"
+          :validation="$hasError('neighborhood', 'form1')"
+          v-model="form1.neighborhood"
+        />
+
+        <c-input
+          label="Cidade"
+          name="city"
+          :validation="$hasError('city', 'form1')"
+          v-model="form1.city"
+        />
+
+        <c-input
+          label="Estado"
+          name="state"
+          :validation="$hasError('state', 'form1')"
+          v-model="form1.state"
+        />
+
+        <c-input
+          label="Observações"
+          name="description"
+          v-model="form1.description"
         />
       </form>
     </section>
@@ -34,66 +82,68 @@
 </template>
 
 <script>
-// components
 import CInput from './components/CInput'
 
 // mixins
 import formSetup from './support/mixin/formSetup'
 
 export default {
-  name: 'root',
-
-  mixins: [ formSetup ],
+  name: 'init-form1',
 
   components: { CInput },
 
+  mixins: [ formSetup ],
+
   data () {
     return {
-      form1: { input1: '', input2: '22' },
-      form2: { input1: '33' }
+      form1: {
+        name: '',
+        email: '',
+        registry_code: '',
+        phone: '',
+        zipcode: '',
+        number: '',
+        additional_details: '',
+        neighborhood: '',
+        city: '',
+        state: '',
+        description: ''
+      }
     }
   },
 
   validation: {
     form1: {
-      input1: {
-        required: true,
-        alphabetic: true
+      name: {
+        required: true
       },
-      input2: {
+      email: {
         required: true,
         pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
-      }
-    },
-    form2: {
-      input1: {
-        required: true,
-        alpha: true
-      }
-    }
-  },
-
-  messages: {
-    form1: {
-      input1: {
-        required: 'não pode ser vazio!',
-        alphabetic: 'tá errado, é alphabetic!'
       },
-      input2: {
-        required: 'preenche tudo!',
-        pattern: 'precisa ser e-mail!'
-      }
-    },
-    form2: {
-      input1: {
-        required: 'tá vazio, não pode!',
-        alpha: 'tá errado, é alpha!'
+      registry_code: {
+        required: true
+      },
+      phone: {
+        required: true
+      },
+      zipcode: {
+        required: true
+      },
+      number: {
+        required: true
+      },
+      neighborhood: {
+        required: true
+      },
+      city: {
+        required: true
+      },
+      state: {
+        required: true
       }
     }
   }
 }
 </script>
 
-<style>
-.input { margin-bottom: 15px; }
-</style>
