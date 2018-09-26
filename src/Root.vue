@@ -47,7 +47,7 @@
         <c-input
           label="Complemento"
           name="additional_details"
-          v-model="form1. additional_details"
+          v-model="form1.additional_details"
         />
 
         <c-input
