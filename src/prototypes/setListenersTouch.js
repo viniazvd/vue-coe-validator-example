@@ -7,19 +7,15 @@ export default function (validations, messages) {
       Array.from(form.elements).forEach((element, index) => {
         // register events only for those who have validation
         if (validations[form.id][form[index].name]) {
-          form[index].addEventListener('blur', () =>
-            (
-              validations = {
-                ...validations,
-                ...this.$validator.touch(
-                  validations,
-                  messages,
-                  form.id,
-                  element.name,
-                  element.value
-                )
-              }
-            ),
+
+          form[index].addEventListener('blur', () => {
+            validations = {
+              ...validations,
+              ...this.$validator.touch(validations, messages, form.id, element.name, element.value)
+            }
+
+            console.log(validations)
+          },
           { once: true })
         }
       })

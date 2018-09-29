@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import RULES from '../rules/types'
 import * as VALIDATIONS from '../rules'
 
@@ -26,11 +28,18 @@ export default function (validation, messages, form, key, value) {
   const inputUpdated = { [key]: changed }
   const formToUpdate = validation[form]
 
-  return {
+  const validated = {
     ...validation,
     [form]: {
       ...formToUpdate,
       ...inputUpdated
     }
   }
+
+  // solition by @vjoao
+  Vue.util.defineReactive(validation, 'validation', validated)
+
+  validation = validation['validation']
+
+  return validation
 }

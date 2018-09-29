@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 export default function (validation, messages, form, key, value) {
   const isTouched = validation[form] && validation[form][key] && validation[form][key].isTouched
 
@@ -14,21 +12,12 @@ export default function (validation, messages, form, key, value) {
     const formToUpdate = validation[form]
 
     const touched = {
-      ...validation,
       [form]: {
         ...formToUpdate,
         [key]: { ...inputToTouch }
       }
     }
 
-    Vue.util.defineReactive(validation, form, { ...touched })
-
-    // solition by @vjoao
-    // Vue.util.defineReactive(validation, form, { ...touched })
-
-    console.log(validation)
-
-    // forced validation
-    return this.validate(validation, messages, form, key, value || '')
+    return this.validate(touched, messages, form, key, value || '')
   }
 }
