@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <section>
-      <form id="form1">
+      <form id="form1" @click.prevent>
         <c-input
           label="Razão social"
           name="name"
@@ -76,6 +76,8 @@
           name="description"
           v-model="form1.description"
         />
+
+        <button @click="$resetValidations('form1')">Reset Form</button>
       </form>
     </section>
   </div>
