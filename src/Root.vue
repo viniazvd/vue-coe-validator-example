@@ -78,6 +78,8 @@
         />
 
         <button @click="$resetValidations('form1')">Reset Form</button>
+        <button @click="isValid">is valid?</button>
+        <button @click="submit">Salvar</button>
       </form>
     </section>
   </div>
@@ -145,7 +147,25 @@ export default {
         required: true
       }
     }
+  },
+
+  messages: {
+    form1: {
+      name: {
+        required: 'não pode ser vazio!'
+      }
+    }
+  },
+
+  methods: {
+    isValid () {
+      console.log(this.$isValidForm('form1'))
+    },
+
+    submit () {
+      this.$validator.validateAll('form1', this.$data)
+        .then(result => (this.validations = result))
+    }
   }
 }
 </script>
-

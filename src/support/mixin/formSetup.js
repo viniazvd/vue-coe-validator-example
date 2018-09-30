@@ -39,34 +39,6 @@ const formSetup = {
     }
 
     this.$validator.setListenersTouch.call(this, this.validations, this.messages)
-
-    // // dynamically records listeners to activate touch inputs
-    // const forms = this.$el.querySelectorAll('form[id]')
-    // if (forms.length) {
-    //   forms.forEach(form => {
-    //     Array.from(form.elements).forEach((element, index) => {
-    //       // register events only for those who have validation
-    //       if (this.validations[form.id][form[index].name]) {
-    //         form[index].addEventListener('blur', () =>
-    //           (
-    //             this.validations = {
-    //               ...this.validations,
-    //               ...this.$validator.touch(
-    //                 this.validations,
-    //                 this.messages,
-    //                 form.id,
-    //                 element.name,
-    //                 element.value
-    //               )
-    //             }
-    //           ),
-    //         { once: true })
-    //       }
-    //     })
-    //   })
-    // } else {
-    //   console.warn('follow the instructions in the documentation to correctly register the form')
-    // }
   },
 
   data () {
@@ -96,11 +68,30 @@ const formSetup = {
         errors: []
       }
 
-      const formReseted = Object.entries(this.validations[form]).map(λ => ({ ...defaultState }))
+      const initialForm = {
+        [form]: Object.entries(this.validations[form]).reduce((form, [key]) => {
+          form[key] = { ...defaultState }
 
-      this.validations = { ...this.validations, [form]: { ...formReseted } }
+          return form
+        }, {})
+      }
+
+      this.validations = initialForm
+      // this.$validator.unsetListenersTouch.call(this, this.validations, this.messages)
+    },
+
+    $isValidForm (form) {
+      const isValid = Object
+        .entries(this.validations[form])
+        .every(([_, { isValid }]) => isValid)
+
+      return isValid
     }
   }
+
+  // beforeDestroy () {
+  //   this.$validator.unsetListenersTouch.call(this, this.validations, this.messages)
+  // }
 }
 
 export default formSetup
