@@ -112,7 +112,22 @@ export default {
         city: '',
         state: '',
         description: ''
-      }
+      },
+      form2: {
+        name2: '',
+        email2: '',
+        registry_code2: '',
+        phone2: '',
+        zipcode2: '',
+        number2: '',
+        additional_details2: '',
+        neighborhood2: '',
+        city2: '',
+        state2: '',
+        description2: ''
+      },
+      coe: '',
+      blz: '?'
     }
   },
 
@@ -146,12 +161,48 @@ export default {
       state: {
         required: true
       }
+    },
+
+    form2: {
+      name2: {
+        required: true
+      },
+      email2: {
+        required: true,
+        pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
+      },
+      registry_code2: {
+        required: true
+      },
+      phone2: {
+        required: true
+      },
+      zipcode2: {
+        required: true
+      },
+      number2: {
+        required: true
+      },
+      neighborhood2: {
+        required: true
+      },
+      city2: {
+        required: true
+      },
+      state2: {
+        required: true
+      }
     }
   },
 
   messages: {
     form1: {
       name: {
+        required: 'não pode ser vazio!'
+      }
+    },
+    form2: {
+      name2: {
         required: 'não pode ser vazio!'
       }
     }
