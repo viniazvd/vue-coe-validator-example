@@ -7,8 +7,7 @@ export default function (validations) {
       Array.from(form.elements).forEach((element, index) => {
         // register events only for those who have validation
         if (validations[form.id][form[index].name]) {
-          console.log('add')
-          form[index].addEventListener('blur', () => this.handlerBlur(form.id, element), { once: true, capture: false, passive: false })
+          form[index].addEventListener('blur', () => this.$handlerBlur(form.id, element), { once: true })
         }
       })
     })
