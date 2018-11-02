@@ -14,6 +14,7 @@
           label="E-mail"
           name="email"
           :validation="$hasError('email', 'form1')"
+          v-validator="{ required: true, pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i }"
           v-model="form1.email"
         />
 
@@ -132,82 +133,51 @@ export default {
     }
   },
 
-  validation: {
-    form1: {
-      // name: {
-      //   required: true
-      // },
-      email: {
-        required: true,
-        pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
-      },
-      registry_code: {
-        required: true
-      },
-      phone: {
-        required: true
-      },
-      zipcode: {
-        required: true
-      },
-      number: {
-        required: true
-      },
-      neighborhood: {
-        required: true
-      },
-      city: {
-        required: true
-      },
-      state: {
-        required: true
-      }
-    },
+  // validation: {
+  //   form1: {
+  //     // name: {
+  //     //   required: true
+  //     // },
+  //     email: {
+  //       required: true,
+  //       pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
+  //     },
+  //     registry_code: {
+  //       required: true
+  //     },
+  //     phone: {
+  //       required: true
+  //     },
+  //     zipcode: {
+  //       required: true
+  //     },
+  //     number: {
+  //       required: true
+  //     },
+  //     neighborhood: {
+  //       required: true
+  //     },
+  //     city: {
+  //       required: true
+  //     },
+  //     state: {
+  //       required: true
+  //     }
+  //   }
+  // },
 
-    form2: {
-      name2: {
-        required: true
-      },
-      email2: {
-        required: true,
-        pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
-      },
-      registry_code2: {
-        required: true
-      },
-      phone2: {
-        required: true
-      },
-      zipcode2: {
-        required: true
-      },
-      number2: {
-        required: true
-      },
-      neighborhood2: {
-        required: true
-      },
-      city2: {
-        required: true
-      },
-      state2: {
-        required: true
-      }
-    }
-  },
-
-  messages: {
-    form1: {
-      name: {
-        required: 'não pode ser vazio!'
-      }
-    },
-    form2: {
-      name2: {
-        required: 'não pode ser vazio!'
-      }
-    }
-  },
+  // messages: {
+  //   form1: {
+  //     name: {
+  //       required: 'não pode ser vazio!'
+  //     }
+  //   },
+  //   form2: {
+  //     name2: {
+  //       required: 'não pode ser vazio!'
+  //     }
+  //   }
+  // },
 
   methods: {
     isValid () {

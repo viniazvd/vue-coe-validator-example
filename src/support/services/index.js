@@ -25,7 +25,9 @@ function setFormValidations (data, keyForm, validation) {
 }
 
 export function setValidations (validation) {
+  /* eslint-disable */
   const { validations = {}, messages = {}, ...data } = this.$data
+  /* eslint-enable */
 
   Object.entries(data).forEach(([dataKey, dataValue]) => {
     Object.keys(validation).forEach(validationKey => {

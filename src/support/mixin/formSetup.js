@@ -2,8 +2,7 @@ import { setMessages, setValidations } from '../services'
 
 const formSetup = {
   created () {
-    const { validation } = this.$options
-    const { messages } = this.$options
+    const { validation, messages } = this.$options
 
     this.messages = messages || null
 
@@ -12,62 +11,43 @@ const formSetup = {
       if (this.$validator.messages && this.messages && this.messages.length) setMessages(this.messages, this.$validator.messages)
 
       setValidations.call(this, validation)
-    } else {
-      console.warn('follow the instructions in the documentation to correctly register the data')
     }
+    //  else {
+    // console.warn('follow the instructions in the documentation to correctly register the data')
+    // }
   },
 
   directives: {
     validator: {
-      inserted (el, { value: rules }, vdom, oldvdom) {
-        const [ form, key ] = vdom.data.model.expression.split('.')
-        const data = vdom.context[form]
+      bind (el, binding, vnode) {
+        const [ form ] = vnode.data.model.expression.split('.')
 
-        // console.log(vdom.context.validations)
-        setTimeout(() => {
+        // if the form property does not exist in validations, set.
+        if (!vnode.context.validations[form]) {
+          vnode.context.$set.call(vnode, vnode.context.validations, form, {})
+        }
+      },
+
+      inserted (el, { value: rules }, vnode) {
+        const [ form, key ] = vnode.data.model.expression.split('.')
+        const data = vnode.context[form]
+
+        // nextTick? because data was not built yet.
+        vnode.context.$nextTick(() => {
           const validations = {
-            ...vdom.context.validations,
+            ...vnode.context.validations,
             [form]: {
-              ...vdom.context.validations[form],
+              ...vnode.context.validations[form],
               [key]: {
-                ...vdom.context.validations[form][key],
+                ...vnode.context.validations[form][key],
                 ...rules
               }
             }
           }
-          console.log('validations directive to init', validations)
 
-          vdom.context.validations = vdom.context.$validator.init(data, null, validations)
-          // vdom.context.$validator.setValidations.call(vdom.context, vdom.context.validations)
-        }, 0)
-      },
-
-      componentUpdated (el, { value: rules }, vdom, oldvdom) {
-        // const isTouched = vdom.context.validations.form1.name.isTouched
-
-        // let { validations, messages } = vdom.context
-        // const [ form, key ] = vdom.data.model.expression.split('.')
-        // const value = vdom.context[form][key]
-        // // const value = (vdom.data.domProps || vdom.data.props).value
-
-        // validations = {
-        //   ...validations,
-        //   [form]: {
-        //     ...validations[form],
-        //     [key]: {
-        //       ...validations[form][key],
-        //       ...rules
-        //     }
-        //   }
-        // }
-
-        // vdom.context.validations = vdom.context.$validator.validate(validations, messages, form, key, value)
-        // const hasErrors = vdom.context.$validator.getErrors(validations, messages, form, key, value)
-        // // const errorMessage = vdom.context.messages[form][key].required
-        // const errorMsg = rules.errorMsg
-        // console.log(rules)
-
-        // vdom.data.attrs.validation = isTouched && hasErrors && errorMsg
+          vnode.context.validations = vnode.context.$validator.init(data, null, validations)
+          vnode.context.$validator.setValidations.call(vnode.context, vnode.context.validations)
+        })
       }
     }
   },

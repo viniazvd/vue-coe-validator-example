@@ -9,6 +9,15 @@ export default function (data, form, validation) {
     errors: []
   }
 
+  const createForm = formName => Object.entries(data).reduce((initialForm, [key, value]) => {
+    const filled = { isFilled: !!value }
+    const validations = (validation && validation[key]) || (validation && validation[formName] && validation[formName][key])
+
+    initialForm[key] = { ...defaultState, ...filled, ...validations }
+
+    return initialForm
+  }, {})
+
   // initialize by directive
   if (Array.isArray(form)) {
     let initialForm = {}
@@ -16,14 +25,7 @@ export default function (data, form, validation) {
     form.forEach(formName => {
       initialForm = {
         ...initialForm,
-        [formName]: Object.entries(data).reduce((initialForm, [key, value]) => {
-          const filled = { isFilled: !!value }
-          const validations = validation[formName][key]
-
-          initialForm[key] = { ...defaultState, ...filled, ...validations }
-
-          return initialForm
-        }, {})
+        [formName]: createForm(formName)
       }
     })
 
@@ -31,14 +33,5 @@ export default function (data, form, validation) {
   }
 
   // initialized by library configuration object
-  return {
-    [form]: Object.entries(data).reduce((initialForm, [key, value]) => {
-      const filled = { isFilled: !!value }
-      const validations = validation[key]
-
-      initialForm[key] = { ...defaultState, ...filled, ...validations }
-
-      return initialForm
-    }, {})
-  }
+  return { [form]: createForm({}) }
 }
