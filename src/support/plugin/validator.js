@@ -1,6 +1,8 @@
 import * as prototypes from '../../prototypes'
+import * as services from '../services'
 
 const messages = options => (options && options.messages && { messages: options.messages }) || {}
+const validateOnBlur = options => (options && { validateOnBlur: options.validateOnBlur })
 
 export default {
   install (Vue, options) {
@@ -9,7 +11,9 @@ export default {
         return Object.assign(
           {},
           prototypes,
-          messages(options)
+          services,
+          messages(options),
+          validateOnBlur(options)
         )
       }
     })

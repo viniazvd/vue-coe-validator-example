@@ -6,6 +6,7 @@
           label="Razão social"
           name="name"
           :validation="$hasError('name', 'form1')"
+          v-validator="{ required: true }"
           v-model="form1.name"
         />
 
@@ -133,9 +134,9 @@ export default {
 
   validation: {
     form1: {
-      name: {
-        required: true
-      },
+      // name: {
+      //   required: true
+      // },
       email: {
         required: true,
         pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i

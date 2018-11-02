@@ -17,6 +17,7 @@ function setWatcher (dataKey, input) {
 }
 
 function setFormValidations (data, keyForm, validation) {
+  // console.log('setFormValidations', validation)
   return {
     ...this.validations,
     ...this.$validator.init(data, keyForm, validation)
