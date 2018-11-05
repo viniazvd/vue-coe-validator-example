@@ -1,4 +1,5 @@
 export default function (data, form, validation) {
+  // console.log(data, form, validation)
   if (!form) form = Object.keys(validation)
 
   const defaultState = {

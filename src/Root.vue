@@ -133,38 +133,38 @@ export default {
     }
   },
 
-  // validation: {
-  //   form1: {
-  //     // name: {
-  //     //   required: true
-  //     // },
-  //     email: {
-  //       required: true,
-  //       pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
-  //     },
-  //     registry_code: {
-  //       required: true
-  //     },
-  //     phone: {
-  //       required: true
-  //     },
-  //     zipcode: {
-  //       required: true
-  //     },
-  //     number: {
-  //       required: true
-  //     },
-  //     neighborhood: {
-  //       required: true
-  //     },
-  //     city: {
-  //       required: true
-  //     },
-  //     state: {
-  //       required: true
-  //     }
-  //   }
-  // },
+  validation: {
+    form1: {
+      // name: {
+      //   required: true
+      // },
+      email: {
+        required: true,
+        pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
+      },
+      registry_code: {
+        required: true
+      },
+      phone: {
+        required: true
+      },
+      zipcode: {
+        required: true
+      },
+      number: {
+        required: true
+      },
+      neighborhood: {
+        required: true
+      },
+      city: {
+        required: true
+      },
+      state: {
+        required: true
+      }
+    }
+  },
 
   // messages: {
   //   form1: {

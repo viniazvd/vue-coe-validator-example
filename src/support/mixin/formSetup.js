@@ -1,5 +1,8 @@
 import { setMessages, setValidations } from '../services'
 
+import RULES from '../../rules/types'
+import * as VALIDATIONS from '../../rules'
+
 const formSetup = {
   created () {
     const { validation, messages } = this.$options
@@ -56,6 +59,60 @@ const formSetup = {
     return {
       validations: {},
       messages: {}
+    }
+  },
+
+  computed: {
+    $validations () {
+      /* eslint-disable */
+      const { validation } = this.$options
+      const { validations = {}, messages = {}, ...data } = this.$data
+      /* eslint-enable */
+
+      if (validation) {
+        return Object.entries(data).reduce((dataAcc, [form, dataValue]) => {
+          if (Object.keys(validation).includes(form)) {
+            const defaultState = {
+              isTouched: false,
+              isDirty: false,
+              isFilled: false,
+              isValid: false,
+              errors: []
+            }
+
+            dataAcc = {
+              ...dataAcc,
+              [form]: Object.keys(dataValue).reduce((initialForm, key) => {
+                const filled = { isFilled: !!dataValue[key] }
+                const validations = (validation && validation[form][key]) || {}
+
+                let errors = []
+
+                RULES.some(rule => {
+                  if (validation[form] && validation[form][key] && validation[form][key][rule]) {
+                    const msg = messages && messages[form][key] && messages[form][key][rule]
+                    const error = VALIDATIONS[rule](dataValue[key], msg, validation, form, key)
+                    if (error) errors = [ ...errors, error ]
+                  }
+                })
+
+                initialForm[key] = {
+                  ...defaultState,
+                  errors  ,
+                  ...filled,
+                  ...validations
+                }
+
+                return initialForm
+              }, {})
+            }
+          }
+
+          return dataAcc
+        }, {})
+      }
+
+      return {}
     }
   },
 
