@@ -7,7 +7,8 @@ Vue.use(validator, {
   messages: {
     required: 'must be filled',
     alpha: 'must be alpha'
-  }
+  },
+  validateOnBlur: true
 })
 
 Vue.config.productionTip = false

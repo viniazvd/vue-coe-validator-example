@@ -10,33 +10,39 @@ export const setMessages = (source, newMessages) => {
   }
 }
 
-function setWatcher (dataKey, input) {
+function watchValidate (dataKey, input) {
   this.$watch(dataKey.concat('.', input), value => {
     this.validations = this.$validator.validate(this.validations, this.messages, dataKey, input, value)
   })
 }
 
-function setFormValidations (data, keyForm, validation) {
-  return {
-    ...this.validations,
-    ...this.$validator.init(data, keyForm, validation)
-  }
+function watchDynamicFields (form) {
+  this.$watch(form, (fields, oldFields) => {
+    if (Object.keys(fields).length !== Object.keys(oldFields).length) setValidations.call(this)
+  })
 }
 
-export function setValidations (validation) {
+export function setValidations (form) {
+  const validation = this.$options.validation
+
   /* eslint-disable */
   const { validations = {}, messages = {}, ...data } = this.$data
   /* eslint-enable */
 
   Object.entries(data).forEach(([dataKey, dataValue]) => {
     Object.keys(validation).forEach(validationKey => {
-      if (validationKey === dataKey) {
-        for (const input in dataValue) setWatcher.call(this, dataKey, input)
+      if ((form && form === dataKey) || validationKey === dataKey) {
+        // if new fields are added dynamically to the form, set the validations again
+        watchDynamicFields.call(this, dataKey)
 
-        this.validations = setFormValidations.call(this, dataValue, dataKey, validation[dataKey])
+        // set validator for each input
+        for (const input in dataValue) watchValidate.call(this, dataKey, input)
+
+        this.validations = {
+          ...this.validations,
+          ...this.$validator.init(dataValue, dataKey, validation[dataKey])
+        }
       }
     })
   })
-
-  this.$validator.setListenersTouch.call(this, this.validations, this.messages)
 }

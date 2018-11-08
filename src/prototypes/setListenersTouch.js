@@ -1,5 +1,4 @@
 export default function (validations) {
-  console.log(validations)
   // dynamically records listeners to activate touch inputs
   this.$nextTick(() => {
     const forms = this.$el.querySelectorAll('form[id]')

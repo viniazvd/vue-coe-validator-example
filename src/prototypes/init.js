@@ -1,5 +1,4 @@
 export default function (data, form, validation) {
-  // console.log(data, form, validation)
   if (!form) form = Object.keys(validation)
 
   const defaultState = {
@@ -12,6 +11,7 @@ export default function (data, form, validation) {
 
   const createForm = formName => Object.entries(data).reduce((initialForm, [key, value]) => {
     const filled = { isFilled: !!value }
+    const dirted
     const validations = (validation && validation[key]) || (validation && validation[formName] && validation[formName][key])
 
     initialForm[key] = { ...defaultState, ...filled, ...validations }

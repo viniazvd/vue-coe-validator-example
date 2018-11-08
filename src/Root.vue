@@ -5,7 +5,7 @@
         <c-input
           label="Razão social"
           name="name"
-          :validation="$hasError('name', 'form1')"
+          :validation="$hasError('name')"
           v-validator="{ required: true }"
           v-model="form1.name"
         />
@@ -13,7 +13,7 @@
         <c-input
           label="E-mail"
           name="email"
-          :validation="$hasError('email', 'form1')"
+          :validation="$hasError('email')"
           v-validator="{ required: true, pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i }"
           v-model="form1.email"
         />
@@ -21,14 +21,14 @@
         <c-input
           label="Cnpj"
           name="registry_code"
-          :validation="$hasError('registry_code', 'form1')"
+          :validation="$hasError('registry_code')"
           v-model="form1.registry_code"
         />
 
         <c-input
           label="Telefone"
           name="phone"
-          :validation="$hasError('phone', 'form1')"
+          :validation="$hasError('phone')"
           v-model="form1.phone"
         />
 
@@ -79,7 +79,9 @@
           v-model="form1.description"
         />
 
-        <button @click="$resetValidations('form1')">Reset Form</button>
+        <button @click="addField">Add Field</button>
+        <button @click="addForm">Add Form</button>
+        <button @click="$validator.reset('form1')">Reset Form</button>
         <button @click="isValid">is valid?</button>
         <button @click="submit">Salvar</button>
       </form>
@@ -89,9 +91,10 @@
 
 <script>
 import CInput from './components/CInput'
+import Vue from 'vue'
 
 // mixins
-import formSetup from './support/mixin/formSetup'
+import formSetup from './support/mixins/formSetup'
 
 export default {
   name: 'init-form1',
@@ -180,13 +183,43 @@ export default {
   // },
 
   methods: {
+    addField () {
+      this.form1 = {
+        ...this.form1,
+        coe: 'mané'
+      }
+    },
+
+    addForm () {
+      const form3 = {
+        form3: ''
+      }
+
+      const newForm = {
+        name2: '',
+        email2: '',
+        registry_code2: '',
+        phone2: '',
+        zipcode2: '',
+        number2: '',
+        additional_details2: '',
+        neighborhood2: '',
+        city2: '',
+        state2: '',
+        description2: ''
+      }
+
+      Vue.util.defineReactive(form3, 'form3', newForm)
+      console.log(this)
+    },
+
     isValid () {
       console.log(this.$isValidForm('form1'))
     },
 
     submit () {
       this.$validator.validateAll('form1', this.$data)
-        .then(result => (this.validations = result))
+        .then(result => (this.$validations = result))
     }
   }
 }
