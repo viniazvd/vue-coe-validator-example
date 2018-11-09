@@ -1,7 +1,23 @@
 <template>
   <div id="app">
     <section>
-      <form id="form1" @click.prevent>
+      <form name="form1" @click.prevent>
+        <select name="select" v-model="form1.select">
+          <option disabled value="">Please select one</option>
+          <option></option>
+          <option>A</option>
+          <option>B</option>
+          <option>C</option>
+        </select>
+        <!-- <c-select
+          display="slug"
+          display-by="name"
+          placeholder="Selecione uma opção"
+          :validation="form1.select.length >= 3 && `Máximo de 3 opções selecionadas`"
+          multiple
+          :items="items"
+          v-model="form1.select"
+        /> -->
         <c-input
           label="Razão social"
           name="name"
@@ -89,6 +105,7 @@
 </template>
 
 <script>
+import CSelect from 'vue-coe-select'
 import CInput from './components/CInput'
 
 // mixins
@@ -97,13 +114,23 @@ import formSetup from './support/mixins/formSetup'
 export default {
   name: 'init-form1',
 
-  components: { CInput },
+  components: { CSelect, CInput },
 
   mixins: [ formSetup ],
 
   data () {
     return {
+      // items: [
+      //   { slug: 'slug_boladao1', name: 'coe1' },
+      //   { slug: 'slug_boladao2', name: 'coe2' },
+      //   { slug: 'slug_boladao3', name: 'coe3' },
+      //   { slug: 'slug_boladao4', name: 'coe4' },
+      //   { slug: 'slug_boladao5', name: 'coe5' },
+      //   { slug: 'slug_boladao6', name: 'coe6' }
+      // ],
       form1: {
+        // select: { slug: 'slug_boladao2', name: 'coe2' },
+        select: '',
         name: '',
         email: '',
         registry_code: '123',
@@ -190,7 +217,8 @@ export default {
 
       // create validation for new field
       const validations = {
-        coe: { required: true }
+        coe: { required: true },
+        select: { required: true }
       }
 
       // set validation for new field

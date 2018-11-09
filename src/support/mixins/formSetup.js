@@ -1,4 +1,4 @@
-import { setContext, setSnapshot } from '../services'
+import { setContext, setSnapshot, setListenersTouch } from '../services'
 import validator from '../directives/validator'
 
 const formSetup = {
@@ -20,7 +20,7 @@ const formSetup = {
       }
 
       this.$validator.setValidations()
-      this.$validator.validateOnBlur && this.$validator.setListenersTouch()
+      this.$validator.validateOnBlur && setListenersTouch.call(this)
     }
   },
 
@@ -35,10 +35,11 @@ const formSetup = {
 
   methods: {
     // helper method to prototype
-    $handlerBlur (form, element) {
+    $handlerBlur (element) {
+      console.log('---', element)
       this.validations = {
         ...this.validations,
-        ...this.$validator.touch(this.validations, this.messages, form, element.name, element.value)
+        ...this.$validator.touch(element)
       }
     },
 

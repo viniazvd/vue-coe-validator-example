@@ -1,25 +1,30 @@
-export default function (validation, messages, form, key, value) {
-  const isTouched = validation[form] && validation[form][key] && validation[form][key].isTouched
+export default function (element) {
+  console.log('name', element.name)
+  console.log('value', element.value)
+  // const componentID = Object.keys(this.context.components)[Object.keys(this.context.components).length - 1]
+  // const vm = this.context.components[componentID]
 
-  // to prevent unnecessary checks
-  if (validation && !isTouched) {
-    const inputToTouch = Object.entries(validation[form][key]).reduce((acc, [key, value]) => {
-      acc[key] = key === 'isTouched' || value
+  // const isTouched = vm.validations[form] && vm.validations[form][key] && vm.validations[form][key].isTouched
 
-      return acc
-    }, {})
+  // // to prevent unnecessary checks
+  // if (vm.validations && !isTouched) {
+  //   const inputToTouch = Object.entries(vm.validations[form][key]).reduce((acc, [key, value]) => {
+  //     acc[key] = key === 'isTouched' || value
 
-    const formToUpdate = validation[form]
+  //     return acc
+  //   }, {})
 
-    const touched = {
-      ...validation,
-      [form]: {
-        ...formToUpdate,
-        [key]: { ...inputToTouch }
-      }
-    }
+  //   const formToUpdate = vm.validations[form]
 
-    // forced validation
-    return this.validate(touched, messages, form, key, value || '')
-  }
+  //   const touched = {
+  //     ...vm.validations,
+  //     [form]: {
+  //       ...formToUpdate,
+  //       [key]: { ...inputToTouch }
+  //     }
+  //   }
+
+  //   // forced validation
+  //   return this.validate(touched, vm.messages, form, key, value || '')
+  // }
 }
