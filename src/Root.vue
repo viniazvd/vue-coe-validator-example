@@ -80,7 +80,6 @@
         />
 
         <button @click="addField">Add Field</button>
-        <button @click="addForm">Add Form</button>
         <button @click="$validator.reset('form1')">Reset Form</button>
         <button @click="isValid">is valid?</button>
         <button @click="submit">Salvar</button>
@@ -91,7 +90,6 @@
 
 <script>
 import CInput from './components/CInput'
-import Vue from 'vue'
 
 // mixins
 import formSetup from './support/mixins/formSetup'
@@ -108,7 +106,7 @@ export default {
       form1: {
         name: '',
         email: '',
-        registry_code: '',
+        registry_code: '123',
         phone: '',
         zipcode: '',
         number: '',
@@ -169,48 +167,34 @@ export default {
     }
   },
 
-  // messages: {
-  //   form1: {
-  //     name: {
-  //       required: 'não pode ser vazio!'
-  //     }
-  //   },
-  //   form2: {
-  //     name2: {
-  //       required: 'não pode ser vazio!'
-  //     }
-  //   }
-  // },
+  messages: {
+    form1: {
+      name: {
+        required: 'não pode ser vazio!'
+      }
+    },
+    form2: {
+      name2: {
+        required: 'não pode ser vazio!'
+      }
+    }
+  },
 
   methods: {
     addField () {
+      // add new field
       this.form1 = {
         ...this.form1,
         coe: 'mané'
       }
-    },
 
-    addForm () {
-      const form3 = {
-        form3: ''
+      // create validation for new field
+      const validations = {
+        coe: { required: true }
       }
 
-      const newForm = {
-        name2: '',
-        email2: '',
-        registry_code2: '',
-        phone2: '',
-        zipcode2: '',
-        number2: '',
-        additional_details2: '',
-        neighborhood2: '',
-        city2: '',
-        state2: '',
-        description2: ''
-      }
-
-      Vue.util.defineReactive(form3, 'form3', newForm)
-      console.log(this)
+      // set validation for new field
+      this.$validator.setValidations(validations, 'form1')
     },
 
     isValid () {
@@ -219,7 +203,7 @@ export default {
 
     submit () {
       this.$validator.validateAll('form1', this.$data)
-        .then(result => (this.$validations = result))
+        .then(result => (this.validations = result))
     }
   }
 }
