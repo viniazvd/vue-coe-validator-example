@@ -17,6 +17,18 @@ function init (__validation, form) {
       makeInitialForm.call(vm, validation, formKey, formValue)
       setValidations.call(vm, validation, form, formKey, formValue)
     })
+
+  const validationsProxy = new Proxy(vm.validations, {
+    deleteProperty (target, prop) {
+      if (prop in target) {
+        process.env.NODE_ENV === 'development' && console.warn(`you can not remove validations property`)
+
+        return true
+      }
+    }
+  })
+
+  vm.validations = validationsProxy
 }
 
 export default init

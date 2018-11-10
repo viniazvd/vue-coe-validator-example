@@ -95,6 +95,7 @@
           v-model="form1.description"
         />
 
+        <button @click="removeField">Remove Field</button>
         <button @click="addField">Add Field</button>
         <button @click="$validator.reset('form1')">Reset Form</button>
         <button @click="isValid">is valid?</button>
@@ -227,6 +228,10 @@ export default {
   },
 
   methods: {
+    removeField () {
+      delete this.validations.form1
+    },
+
     addField () {
       // add new field
       this.form1 = {
