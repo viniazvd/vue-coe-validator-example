@@ -1,4 +1,4 @@
-import { getValidation, makeInitialForm, setValidations } from '../support/services'
+import { getValidation, makeInitialForm, setValidations, setProxy } from '../support/services'
 
 function init (__validation, form) {
   const instance = this || this.$validator
@@ -18,17 +18,7 @@ function init (__validation, form) {
       setValidations.call(vm, validation, form, formKey, formValue)
     })
 
-  const validationsProxy = new Proxy(vm.validations, {
-    deleteProperty (target, prop) {
-      if (prop in target) {
-        process.env.NODE_ENV === 'development' && console.warn(`you can not remove validations property`)
-
-        return true
-      }
-    }
-  })
-
-  vm.validations = validationsProxy
+  setProxy.call(vm)
 }
 
 export default init
