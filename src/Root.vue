@@ -221,7 +221,7 @@ export default {
     },
     form2: {
       name2: {
-        required: 'não pode ser vazio!'
+        required: 'tá vazio rapá'
       }
     }
   },
@@ -241,7 +241,7 @@ export default {
       }
 
       // set validation for new field
-      this.$validator.setValidations(validations, 'form1')
+      this.$validator.init(validations, 'form1')
     },
 
     isValid () {
