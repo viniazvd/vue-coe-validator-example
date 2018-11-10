@@ -21,7 +21,6 @@ export default function (formToReset) {
 
   vm.validations = Object
     .entries(vm.validations)
-    .filter(([formName]) => formName === formToReset)
     .reduce((acc, [form, fields]) => {
       acc[form] = Object.entries(fields).reduce((accFields, [key, states]) => {
         accFields[key] = Object.entries(states).reduce((accStates, [state, value]) => {

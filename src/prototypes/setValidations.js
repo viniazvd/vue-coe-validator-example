@@ -1,8 +1,8 @@
-import { initialForm } from '../support/services'
+import { makeInitialForm } from '../support/services'
 
-function watchValidate (dataKey, input) {
-  this.$watch(dataKey.concat('.', input), value => {
-    this.validations = this.$validator.validate(this.validations, this.messages, dataKey, input, value)
+function watchValidate (formKey, input) {
+  this.$watch(formKey.concat('.', input), value => {
+    this.validations = this.$validator.validate(this.validations, this.messages, formKey, input, value)
   })
 }
 
@@ -27,22 +27,24 @@ function setValidations (validation, form) {
   const { validations = {}, messages = {}, ...data } = vm.$data
   /* eslint-enable */
 
-  Object.entries(data).forEach(([dataKey, dataValue]) => {
-    Object.keys(validation).forEach(validationKey => {
-      if ((form && form === dataKey) || validationKey === dataKey) {
-        // set validator for each input
-        for (const input in dataValue) watchValidate.call(vm, dataKey, input)
-
-        vm.validations = {
-          ...vm.validations,
-          ...initialForm(
-            dataValue,
-            dataKey, (
-              validation[dataKey] || // when the validation is created automatically
-              validation // quando a validação é criada programaticamente
-            )
+  Object.entries(data).forEach(([formKey, formValue]) => {
+    if (Object.keys(validation).includes(formKey)) {
+      vm.validations = {
+        ...vm.validations,
+        ...makeInitialForm(
+          formValue,
+          formKey, (
+            validation[formKey] || // when validation is created automatically
+            validation // when validation is created dynamically
           )
-        }
+        )
+      }
+    }
+
+    Object.keys(validation).forEach(validationKey => {
+      if ((form && form === formKey) || validationKey === formKey) {
+        // set validator for each input
+        for (const input in formValue) watchValidate.call(vm, formKey, input)
       }
     })
   })

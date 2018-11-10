@@ -26,43 +26,28 @@ export function setSnapshot () {
   }
 }
 
-export function initialForm (data, form, validation) {
-  if (!form) form = Object.keys(validation)
+const defaultState = {
+  isTouched: false,
+  isDirty: false,
+  isFilled: false,
+  isValid: false,
+  errors: []
+}
 
-  const defaultState = {
-    isTouched: false,
-    isDirty: false,
-    isFilled: false,
-    isValid: false,
-    errors: []
-  }
+export function makeInitialForm (data, form, validation) {
+  return {
+    [form]: Object.entries(data).reduce((initialForm, [key, value]) => {
+      const filled = { isFilled: !!value }
+      const dirted = { isDirty: !!value }
+      const validations = validation && validation[key]
 
-  const createForm = formName => Object.entries(data).reduce((initialForm, [key, value]) => {
-    const filled = { isFilled: !!value }
-    const dirted = { isDirty: !!value }
-    const validations = (validation && validation[key]) || (validation && validation[formName] && validation[formName][key])
-
-    initialForm[key] = { ...defaultState, ...dirted, ...filled, ...validations }
-
-    return initialForm
-  }, {})
-
-  // initialize by directive
-  if (Array.isArray(form)) {
-    let initialForm = {}
-
-    form.forEach(formName => {
-      initialForm = {
-        ...initialForm,
-        [formName]: createForm(formName)
+      if (validations !== undefined) {
+        initialForm[key] = { ...defaultState, ...dirted, ...filled, ...validations }
       }
-    })
 
-    return initialForm
+      return initialForm
+    }, {})
   }
-
-  // initialized by library configuration object
-  return { [form]: createForm({}) }
 }
 
 export function setListenersTouch () {
@@ -75,14 +60,13 @@ export function setListenersTouch () {
 
     if (forms.length) {
       forms.forEach(form => {
-        console.log(form).getAttribute("class")
-        // console.log(Array.from(form.elements))
+        const formName = form.getAttribute('name')
+
         Array.from(form.elements).forEach((element, index) => {
           // register events only for those who have validation
-          element.addEventListener('blur', () => vm.$handlerBlur(element), { once: true })
-          // if (vm.validations[form.name] && vm.validations[form.name][form[index].name]) {
-          //   element.addEventListener('blur', () => vm.$handlerBlur(form.id, element), { once: true })
-          // }
+          if (vm.validations[formName] && vm.validations[formName][element.name]) {
+            element.addEventListener('blur', () => vm.$handlerBlur(formName, element), { once: true })
+          }
         })
       })
     } else {

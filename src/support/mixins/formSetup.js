@@ -35,11 +35,10 @@ const formSetup = {
 
   methods: {
     // helper method to prototype
-    $handlerBlur (element) {
-      console.log('---', element)
+    $handlerBlur (form, element) {
       this.validations = {
         ...this.validations,
-        ...this.$validator.touch(element)
+        ...this.$validator.touch(form, element)
       }
     },
 

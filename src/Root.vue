@@ -100,12 +100,30 @@
         <button @click="isValid">is valid?</button>
         <button @click="submit">Salvar</button>
       </form>
+
+      <form name="form2" @click.prevent>
+        <c-input
+          label="Razão social"
+          name="name2"
+          :validation="$hasError('name2', 'form2')"
+          v-validator="{ required: true }"
+          v-model="form2.name2"
+        />
+
+        <c-input
+          label="E-mail"
+          name="email2"
+          :validation="$hasError('email2', 'form2')"
+          v-validator="{ required: true, pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i }"
+          v-model="form2.email2"
+        />
+      </form>
     </section>
   </div>
 </template>
 
 <script>
-import CSelect from 'vue-coe-select'
+// import CSelect from 'vue-coe-select'
 import CInput from './components/CInput'
 
 // mixins
@@ -114,20 +132,12 @@ import formSetup from './support/mixins/formSetup'
 export default {
   name: 'init-form1',
 
-  components: { CSelect, CInput },
+  components: { CInput },
 
   mixins: [ formSetup ],
 
   data () {
     return {
-      // items: [
-      //   { slug: 'slug_boladao1', name: 'coe1' },
-      //   { slug: 'slug_boladao2', name: 'coe2' },
-      //   { slug: 'slug_boladao3', name: 'coe3' },
-      //   { slug: 'slug_boladao4', name: 'coe4' },
-      //   { slug: 'slug_boladao5', name: 'coe5' },
-      //   { slug: 'slug_boladao6', name: 'coe6' }
-      // ],
       form1: {
         // select: { slug: 'slug_boladao2', name: 'coe2' },
         select: '',
@@ -190,6 +200,15 @@ export default {
       },
       state: {
         required: true
+      }
+    },
+    form2: {
+      name2: {
+        required: true
+      },
+      email2: {
+        required: true,
+        pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
       }
     }
   },
