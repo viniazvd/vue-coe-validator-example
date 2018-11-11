@@ -121,12 +121,34 @@
         />
       </form>
     </section>
+
+    <button @click="isOpen = !isOpen">OPEN FORM BOLADAO</button>
+    <c-modal :is-open="isOpen" @close="isOpen = !isOpen">
+      <form name="form3" @click.prevent>
+        <c-input
+          label="Razão social"
+          name="name3"
+          :validation="$hasError('name3', 'form3')"
+          v-validator="{ required: true }"
+          v-model="form3.name3"
+        />
+
+        <c-input
+          label="E-mail"
+          name="email3"
+          :validation="$hasError('email3', 'form3')"
+          v-validator="{ required: true, pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i }"
+          v-model="form3.email3"
+        />
+      </form>
+    </c-modal>
   </div>
 </template>
 
 <script>
 // import CSelect from 'vue-coe-select'
 import CInput from './components/CInput'
+import CModal from './components/CModal'
 
 // mixins
 import formSetup from './support/mixin/formSetup'
@@ -134,12 +156,13 @@ import formSetup from './support/mixin/formSetup'
 export default {
   name: 'init-form1',
 
-  components: { CInput },
+  components: { CInput, CModal },
 
   mixins: [ formSetup ],
 
   data () {
     return {
+      isOpen: false,
       form1: {
         // select: { slug: 'slug_boladao2', name: 'coe2' },
         select: '',
@@ -167,6 +190,10 @@ export default {
         city2: '',
         state2: '',
         description2: ''
+      },
+      form3: {
+        name3: '',
+        email3: ''
       },
       coe: '',
       blz: '?'
@@ -213,6 +240,15 @@ export default {
         required: true,
         pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
       }
+    },
+    form3: {
+      name3: {
+        required: true
+      },
+      email3: {
+        required: true,
+        pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
+      }
     }
   },
 
@@ -227,6 +263,11 @@ export default {
         required: 'tá vazio rapá'
       }
     }
+    // form3: {
+    //   name3: {
+    //     required: 'tá vazio rapá'
+    //   }
+    // }
   },
 
   methods: {
@@ -248,7 +289,6 @@ export default {
       }
 
       // set validation for new field
-      // this.$validator.init(validations, 'form1')
       this.$validator.add(validations, 'form1')
     },
 
