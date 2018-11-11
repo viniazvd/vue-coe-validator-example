@@ -254,8 +254,8 @@ export default {
     },
 
     submit () {
-      this.$validator.validateAll('form1', this.$data)
-        .then(result => (this.validations = result))
+      this.$validator.validate()
+        .then(isValid => console.log(isValid))
     }
   }
 }

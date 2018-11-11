@@ -1,3 +1,6 @@
+import RULES from '../../rules/types'
+import * as VALIDATIONS from '../../rules'
+
 export function getSnapshots () {
   const validation = this.$options.validation
 
@@ -98,7 +101,7 @@ export function makeInitialForm (validation, formKey, formValue) {
 
 function watchValidate (formKey, input) {
   this.$watch(formKey.concat('.', input), value => {
-    this.$validator.validate(this.validations, this.messages, formKey, input, value)
+    validate.call(this, formKey, input, value)
   })
 }
 
@@ -134,7 +137,7 @@ function forceValidation (form, element, key = element.name, value = element.val
   if (vm.validations && !isTouched) {
     vm.validations[form][element.name].isTouched = true
 
-    this.$validator.validate(vm.validations, vm.messages, form, key, value || '')
+    validate.call(this, form, key, value || '')
   }
 }
 
@@ -186,3 +189,43 @@ export function resetForm (fields) {
     return accFields
   }, {})
 }
+
+function getErrors (validations, messages, form, key, value) {
+  const hasRule = rule => validations[form] && validations[form][key] && validations[form][key][rule]
+  const getMessage = rule => messages && messages[form][key] && messages[form][key][rule]
+  const getError = (rule, msg) => VALIDATIONS[rule](value, msg, validations, form, key)
+
+  let errors = []
+
+  RULES.some(rule => {
+    if (hasRule(rule)) {
+      const msg = getMessage(rule)
+      const error = getError(rule, msg)
+
+      if (error) errors = [ ...errors, error ]
+    }
+  })
+
+  return errors
+}
+
+function validate (form, key, value) {
+  const vm = getContext.call(this)
+
+  const validations = vm.validations
+  const messages = vm.messages
+
+  const errors = getErrors(validations, messages, form, key, value)
+  const isTouched = vm.validations[form] && vm.validations[form][key] && vm.validations[form][key].isTouched
+
+  vm.validations[form][key] = {
+    ...validations[form][key],
+    errors,
+    isTouched: true,
+    isDirty: !!value || isTouched,
+    isFilled: !!value,
+    isValid: errors.length <= 0
+  }
+}
+
+export const validateField = validate
