@@ -127,7 +127,7 @@
 import CInput from './components/CInput'
 
 // mixins
-import formSetup from './support/mixins/formSetup'
+import formSetup from './support/mixin/formSetup'
 
 export default {
   name: 'init-form1',
