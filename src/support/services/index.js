@@ -38,6 +38,13 @@ export function setMessages (source, newMessages) {
   }
 }
 
+export function getContext () {
+  const vm = this.$validator || this
+  const componentID = Object.keys(vm.context.components)[Object.keys(vm.context.components).length - 1]
+
+  return vm.context.components[componentID]
+}
+
 export function getValidation (validation, form) {
   return !validation
     ? this.$options.validation
@@ -91,7 +98,7 @@ export function makeInitialForm (validation, formKey, formValue) {
 
 function watchValidate (formKey, input) {
   this.$watch(formKey.concat('.', input), value => {
-    this.validations = this.$validator.validate(this.validations, this.messages, formKey, input, value)
+    this.$validator.validate(this.validations, this.messages, formKey, input, value)
   })
 }
 
@@ -118,54 +125,28 @@ export function setProxy () {
   this.validations = validationsProxy
 }
 
-function forceValidation (form, element) {
-  const key = element.name
-  const value = element.value
-
-  const componentID = Object.keys(this.$validator.context.components)[Object.keys(this.$validator.context.components).length - 1]
-  const vm = this.$validator.context.components[componentID]
+function forceValidation (form, element, key = element.name, value = element.value) {
+  const vm = getContext.call(this)
 
   const isTouched = vm.validations[form] && vm.validations[form][key] && vm.validations[form][key].isTouched
 
   // to prevent unnecessary checks
   if (vm.validations && !isTouched) {
-    const inputToTouch = Object.entries(vm.validations[form][key]).reduce((acc, [key, value]) => {
-      acc[key] = key === 'isTouched' || value
+    vm.validations[form][element.name].isTouched = true
 
-      return acc
-    }, {})
-
-    const formToUpdate = vm.validations[form]
-
-    const validationWithTouchedField = {
-      ...vm.validations,
-      [form]: {
-        ...formToUpdate,
-        [key]: { ...inputToTouch }
-      }
-    }
-
-    return this.$validator.validate(validationWithTouchedField, vm.messages, form, key, value || '')
-  }
-}
-
-function validateField (form, element) {
-  this.validations = {
-    ...this.validations,
-    ...forceValidation.call(this, form, element)
+    this.$validator.validate(vm.validations, vm.messages, form, key, value || '')
   }
 }
 
 function addTouchListener (formName, input) {
   // register events only for those who have validation
   if (this.validations[formName] && this.validations[formName][input.name]) {
-    input.addEventListener('blur', () => validateField.call(this, formName, input), { once: true })
+    input.addEventListener('blur', () => forceValidation.call(this, formName, input), { once: true })
   }
 }
 
 export function setListenersTouch () {
-  const componentID = Object.keys(this.$validator.context.components)[Object.keys(this.$validator.context.components).length - 1]
-  const vm = this.$validator.context.components[componentID]
+  const vm = getContext.call(this)
 
   // dynamically records listeners to activate touch inputs
   vm.$nextTick(() => {

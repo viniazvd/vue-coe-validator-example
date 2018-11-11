@@ -1,9 +1,10 @@
 import RULES from '../rules/types'
 import * as VALIDATIONS from '../rules'
 
+import { getContext, setProxy } from '../support/services'
+
 export default function (validation, messages, form, key, value) {
-  const componentID = Object.keys(this.context.components)[Object.keys(this.context.components).length - 1]
-  const vm = this.context.components[componentID]
+  const vm = getContext.call(this)
 
   if (!form) { console.warn('select a form to validate the data.') }
 
@@ -31,11 +32,13 @@ export default function (validation, messages, form, key, value) {
   const inputUpdated = { [key]: changed }
   const formToUpdate = validation[form]
 
-  return {
+  vm.validations = {
     ...validation,
     [form]: {
       ...formToUpdate,
       ...inputUpdated
     }
   }
+
+  setProxy.call(vm)
 }
