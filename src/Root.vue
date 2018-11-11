@@ -9,6 +9,8 @@
           <option>B</option>
           <option>C</option>
         </select>
+
+        <span v-if="$hasError('select')">{{ $hasError('select') }}</span>
         <!-- <c-select
           display="slug"
           display-by="name"
@@ -246,7 +248,8 @@ export default {
       }
 
       // set validation for new field
-      this.$validator.init(validations, 'form1')
+      // this.$validator.init(validations, 'form1')
+      this.$validator.add(validations, 'form1')
     },
 
     submit () {
