@@ -98,7 +98,6 @@
         <button @click="removeField">Remove Field</button>
         <button @click="addField">Add Field</button>
         <button @click="$validator.reset('form1')">Reset Form</button>
-        <button @click="isValid">is valid?</button>
         <button @click="submit">Salvar</button>
       </form>
 
@@ -174,15 +173,16 @@ export default {
 
   validation: {
     form1: {
-      // name: {
-      //   required: true
-      // },
       email: {
         required: true,
         pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
       },
       registry_code: {
-        required: true
+        required: true,
+        custom: [
+          (value) => value === '123',
+          (value) => typeof value === 'string'
+        ]
       },
       phone: {
         required: true
@@ -247,10 +247,6 @@ export default {
 
       // set validation for new field
       this.$validator.init(validations, 'form1')
-    },
-
-    isValid () {
-      console.log(this.$isValidForm('form1'))
     },
 
     submit () {
