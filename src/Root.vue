@@ -240,16 +240,16 @@ export default {
         required: true,
         pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
       }
-    },
-    form3: {
-      name3: {
-        required: true
-      },
-      email3: {
-        required: true,
-        pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
-      }
     }
+    // form3: {
+    //   name3: {
+    //     required: true
+    //   },
+    //   email3: {
+    //     required: true,
+    //     pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i
+    //   }
+    // }
   },
 
   messages: {
