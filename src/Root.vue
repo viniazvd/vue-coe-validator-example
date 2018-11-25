@@ -214,8 +214,13 @@ export default {
         ]
       },
       phone: {
-        required: true
+        required: true,
+        customAsync: [
+          value => new Promise(resolve => setTimeout(resolve, 2000)),
+          value => new Promise(resolve => setTimeout(resolve(typeof value === 'string'), 3000))
+        ]
       },
+
       zipcode: {
         required: true
       },
@@ -256,6 +261,9 @@ export default {
     form1: {
       name: {
         required: 'não pode ser vazio!'
+      },
+      phone: {
+        customAsync: 'errouuu!'
       }
     },
     form2: {
