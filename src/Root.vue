@@ -97,9 +97,13 @@
           v-model="form1.description"
         />
 
+        <button @click="$validator.touch('name2', 'form2')">Touch Field</button>
+        <button @click="$validator.validateField('name')">Validate NAME Field</button>
+        <button @click="$validator.validateForm('form1')">Validate FORM1 Form</button>
         <button @click="removeField">Remove Field</button>
         <button @click="addField">Add Field</button>
-        <button @click="$validator.reset('form1')">Reset Form</button>
+        <button @click="$validator.resetField('name')">Reset NAME Field</button>
+        <button @click="$validator.resetForm('form1')">Reset FORM1 Form</button>
         <button @click="submit">Salvar</button>
       </form>
 
@@ -216,8 +220,12 @@ export default {
       phone: {
         required: true,
         customAsync: [
-          value => new Promise(resolve => setTimeout(resolve, 2000)),
-          value => new Promise(resolve => setTimeout(resolve(typeof value === 'string'), 3000))
+          value => new Promise(resolve => setTimeout(() => {
+            resolve(value === '64')
+          }, 2000)),
+          value => new Promise(resolve => setTimeout(() => {
+            resolve(typeof value === 'string')
+          }, 3000))
         ]
       },
 
@@ -301,8 +309,16 @@ export default {
     },
 
     submit () {
-      this.$validator.validate()
+      this.$validator.isFormValid()
         .then(isValid => console.log(isValid))
+    },
+
+    validateField (key) {
+      this.$validator.validateField(key)
+    },
+
+    validateForm (form) {
+      this.$validator.validateForm(form)
     }
   }
 }
