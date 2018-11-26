@@ -1,5 +1,5 @@
-import { getContext } from '../services/context'
-import { getSyncErrors, getAsyncErrors } from './'
+import { getContext } from '../support/services/context'
+import { getSyncErrors, getAsyncErrors } from '../support/services'
 
 function setStates (state, value, isTouched) {
   state.isChanged = true
@@ -8,11 +8,13 @@ function setStates (state, value, isTouched) {
   state.isFilled = !!value
 }
 
-export function validateField (form, key, value) {
+function validateField (key, form) {
   const vm = getContext.call(this)
 
   const validations = vm.validations
+  if (!form) form = Object.keys(validations)[0]
   const messages = vm.messages
+  const value = vm[form][key]
 
   const state = validations[form][key]
 
@@ -49,3 +51,5 @@ export function validateField (form, key, value) {
     state.isFilled = false
   }
 }
+
+export default validateField

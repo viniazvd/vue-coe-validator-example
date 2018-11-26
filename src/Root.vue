@@ -98,6 +98,8 @@
         />
 
         <button @click="$validator.touch('name2', 'form2')">Touch Field</button>
+        <button @click="$validator.validateField('name')">Validate NAME Field</button>
+        <button @click="$validator.validateForm('form1')">Validate FORM1 Form</button>
         <button @click="removeField">Remove Field</button>
         <button @click="addField">Add Field</button>
         <button @click="$validator.reset('form1')">Reset Form</button>
@@ -306,8 +308,16 @@ export default {
     },
 
     submit () {
-      this.$validator.validate()
+      this.$validator.isFormValid()
         .then(isValid => console.log(isValid))
+    },
+
+    validateField (key) {
+      this.$validator.validateField(key)
+    },
+
+    validateForm (form) {
+      this.$validator.validateForm(form)
     }
   }
 }
