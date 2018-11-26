@@ -26,7 +26,7 @@ export default {
       const addByDirective = true
 
       // set validate onBlur
-      vm.$validator.validateOnBlur && addTouchListener.call(vm, form, inputElement, addByDirective)
+      vm.$validator.validateOnBlur && addTouchListener.call(vm, form, inputElement, addByDirective, key)
     }
   }
 }

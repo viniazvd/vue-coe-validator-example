@@ -32,7 +32,7 @@ export function getData () {
   return data
 }
 
-export function watchValidate (formKey, input) {
+export function setValidate (formKey, input) {
   const unwatch = this.$watch(formKey.concat('.', input), value => {
     validateField.call(this, formKey, input, value)
   })
@@ -72,8 +72,10 @@ function forceValidation (form, element, key = element.name, value = element.val
 }
 
 export function addTouchListener (formName, inputElement, addByDirective) {
+  const inputName = addByDirective ? inputElement : inputElement.name
+
   // register events only for those who have validation
-  const hasValidation = this.validations[formName] && this.validations[formName][inputElement.name]
+  const hasValidation = this.validations[formName] && this.validations[formName][inputName]
 
   // check if addEventListener has already been set in the conditional below? worth it?
 
@@ -96,7 +98,7 @@ export function setListenersTouch () {
 
         Array
           .from(NodeForm)
-          .forEach(input => addTouchListener.call(vm, formName, input))
+          .forEach(inputElement => addTouchListener.call(vm, formName, inputElement))
       })
     } else {
       console.warn('follow the instructions in the documentation to correctly register the form')
@@ -114,17 +116,18 @@ function getMessage (rule, messages, form, key) {
   return messages && messages[form] && messages[form][key] && messages[form][key][rule]
 }
 
-function getError (rule, validations, form, key, value, msg) {
-  return VALIDATIONS[rule](value, msg, validations, form, key)
+function getError (rule, value, msg, field) {
+  return VALIDATIONS[rule](value, msg, field)
 }
 
 export function getSyncErrors (validations, messages, form, key, value) {
+  // TO-DO/issue: change to an immutable approach?
   let errors = []
 
   RULES.some(rule => {
     if (isRule(rule, validations, form, key) && rule !== 'customAsync') {
       const msg = getMessage(rule, messages, form, key)
-      const error = getError(rule, validations, form, key, value, msg)
+      const error = getError(rule, value, msg, validations[form][key])
 
       if (error) errors = [ ...errors, error ]
     }
@@ -135,7 +138,7 @@ export function getSyncErrors (validations, messages, form, key, value) {
 
 export async function getAsyncErrors (validations, messages, form, key, value) {
   const msg = getMessage('customAsync', messages, form, key)
-  const error = await getError('customAsync', validations, form, key, value, msg)
+  const error = await getError('customAsync', value, msg, validations[form][key])
 
   return error
 }
