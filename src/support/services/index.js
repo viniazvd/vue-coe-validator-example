@@ -31,15 +31,9 @@ export function getData () {
   return data
 }
 
-<<<<<<< HEAD
-export function setValidation (formKey, input) {
-  const unwatch = this.$watch(formKey.concat('.', input), value => {
-    validateField.call(this, formKey, input, value)
-=======
 export function setValidation (form, field) {
   const unwatch = this.$watch(form.concat('.', field), () => {
     this.$validator.validateField(field, form)
->>>>>>> 27e257c7096ee37213ccfceae7f86abf67f03d48
   })
 
   this.$on('hook:beforeDestroy', unwatch)
