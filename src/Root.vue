@@ -97,6 +97,7 @@
           v-model="form1.description"
         />
 
+        <button @click="$validator.touch('name2', 'form2')">Touch Field</button>
         <button @click="removeField">Remove Field</button>
         <button @click="addField">Add Field</button>
         <button @click="$validator.reset('form1')">Reset Form</button>
@@ -216,8 +217,12 @@ export default {
       phone: {
         required: true,
         customAsync: [
-          value => new Promise(resolve => setTimeout(resolve, 2000)),
-          value => new Promise(resolve => setTimeout(resolve(typeof value === 'string'), 3000))
+          value => new Promise(resolve => setTimeout(() => {
+            resolve(value === '64')
+          }, 2000)),
+          value => new Promise(resolve => setTimeout(() => {
+            resolve(typeof value === 'string')
+          }, 3000))
         ]
       },
 
