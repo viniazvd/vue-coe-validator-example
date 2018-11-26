@@ -102,7 +102,8 @@
         <button @click="$validator.validateForm('form1')">Validate FORM1 Form</button>
         <button @click="removeField">Remove Field</button>
         <button @click="addField">Add Field</button>
-        <button @click="$validator.reset('form1')">Reset Form</button>
+        <button @click="$validator.resetField('name')">Reset NAME Field</button>
+        <button @click="$validator.resetForm('form1')">Reset FORM1 Form</button>
         <button @click="submit">Salvar</button>
       </form>
 
