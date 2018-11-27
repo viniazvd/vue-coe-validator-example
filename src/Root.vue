@@ -20,80 +20,71 @@
           :items="items"
           v-model="form1.select"
         /> -->
-        <c-input
-          label="Razão social"
-          name="name"
-          :validation="$hasError('name')"
-          v-validator="{ required: true }"
-          v-model="form1.name"
-        />
 
         <c-input
           label="E-mail"
-          name="email"
           :validation="$hasError('email')"
           v-validator="{ required: true, pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i }"
           v-model="form1.email"
         />
 
+
         <c-input
           label="Cnpj"
-          name="registry_code"
           :validation="$hasError('registry_code')"
           v-model="form1.registry_code"
         />
 
         <c-input
           label="Telefone"
-          name="phone"
           :validation="$hasError('phone')"
           v-model="form1.phone"
         />
 
         <c-input
           label="Cep"
-          name="zipcode"
           :validation="$hasError('zipcode', 'form1')"
           v-model="form1.zipcode"
         />
 
         <c-input
           label="Número"
-          name="number"
           :validation="$hasError('number', 'form1')"
           v-model="form1.number"
         />
 
         <c-input
+          label="Razão social"
+          :validation="$hasError('name')"
+          v-validator="{ required: true }"
+          v-model="form1.name"
+        />
+
+        <c-input
           label="Complemento"
-          name="additional_details"
           v-model="form1.additional_details"
         />
 
         <c-input
           label="Bairro"
-          name="neighborhood"
           :validation="$hasError('neighborhood', 'form1')"
           v-model="form1.neighborhood"
         />
 
         <c-input
           label="Cidade"
-          name="city"
           :validation="$hasError('city', 'form1')"
           v-model="form1.city"
         />
 
         <c-input
           label="Estado"
-          name="state"
           :validation="$hasError('state', 'form1')"
           v-model="form1.state"
         />
 
         <c-input
           label="Observações"
-          name="description"
           v-model="form1.description"
         />
 
@@ -110,7 +101,6 @@
       <form name="form2" @click.prevent>
         <c-input
           label="Razão social"
-          name="name2"
           :validation="$hasError('name2', 'form2')"
           v-validator="{ required: true }"
           v-model="form2.name2"
@@ -118,7 +108,6 @@
 
         <c-input
           label="E-mail"
-          name="email2"
           :validation="$hasError('email2', 'form2')"
           v-validator="{ required: true, pattern: /^[A-Z0-9_'%=+!`#~$*?^{}&|-]+([.][A-Z0-9_'%=+!`#~$*?^{}&|-]+)*@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/i }"
           v-model="form2.email2"

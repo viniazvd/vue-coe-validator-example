@@ -1,6 +1,6 @@
 import { getData, setProxy } from '../support/services'
 import { getContext } from '../support/services/context'
-import { setFormFields, setValidations } from '../support/services/init'
+import { setFieldsName, setFormFields, setValidations } from '../support/services/init'
 
 function init () {
   const vm = getContext.call(this)
@@ -13,6 +13,7 @@ function init () {
     .entries(data)
     .filter(dataWithValidation)
     .forEach(([form, fields]) => {
+      setFieldsName.call(vm, form, fields, validation[form])
       setFormFields.call(vm, form, fields, validation[form])
       setValidations.call(vm, form, validation[form])
     })
